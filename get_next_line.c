@@ -5,71 +5,107 @@
 /*                                                     +:+                    */
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/12 18:18:27 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/20 10:53:07 by tbruinem      ########   odam.nl         */
+/*   Created: 2019/11/09 22:38:51 by tbruinem       #+#    #+#                */
+/*   Updated: 2019/11/09 22:38:51 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-void	dynamic_malloc(char **old, char *buffer, int bytes_read)
+int		ft_strlen_n(char *str)
 {
-	char	*new;
-	int		i;
+	int i;
 
 	i = 0;
-	new = ft_strjoin(*old, buffer, bytes_read, 0);
-	if (new == 0)
-		return ;
-	if (*old)
-		free(*old);
-	while (buffer[i] && buffer[i] != '\n')
+	if (str == NULL)
+		return (0);
+	while (str[i] && str[i] != '\n')
+		i++;
+	return (i);
+}
+
+void	clean_buffer(char *buffer, int bytes_read)
+{
+	int i;
+
+	i = 0;
+	while (i < bytes_read && buffer[i] != '\n')
 	{
 		buffer[i] = 0;
 		i++;
 	}
-	*old = new;
 }
 
-void	clean_buffer(char *buffer)
+char	*ft_realloc(char *str, char *buffer, int bytes_read)
+{
+	char	*new;
+	int		i;
+	int		len;
+
+	i = 0;
+	if (bytes_read > ft_strlen_n(buffer))
+		bytes_read = ft_strlen_n(buffer);
+	len = ft_strlen_n(str) + bytes_read;
+	new = malloc(len + 1);
+	if (str)
+		while (str[i])
+		{
+			new[i] = str[i];
+			i++;
+		}
+	while (i < len)
+	{
+		new[i] = *buffer;
+		buffer++;
+		i++;
+	}
+	new[i] = 0;
+	free(str);
+//	printf("string: %s\n", new);
+//	printf("buffer: %s\n", buffer);
+	clean_buffer(buffer, bytes_read);
+	return (new);
+}
+
+void	move_buffer(char *buffer, int bytes_read)
 {
 	int start;
 	int i;
 
 	i = 0;
 	start = 0;
-	while (start < BUFFER_SIZE && buffer[start] != '\n')
+	while (start < bytes_read && buffer[start] != '\n')
 		start++;
 	if (buffer[start] == '\n')
 		start++;
-	while (i < (BUFFER_SIZE - start))
+	while (i < (bytes_read - start))
 	{
 		buffer[i] = buffer[start + i];
 		i++;
 	}
-	while (i < BUFFER_SIZE)
+	while (i < bytes_read)
 	{
 		buffer[i] = 0;
 		i++;
 	}
+//	printf("cleaned buffer: %s\n", buffer);
 }
 
-int		is_newline(char *buffer, char **str, int bytes_read)
+int		is_newline(char *buffer, char **line, int bytes_read)
 {
 	int i;
 
 	i = 0;
-	while (buffer[i])
+	while (buffer[i] && i < bytes_read)
 	{
 		if (buffer[i] == '\n')
 		{
-			dynamic_malloc(str, buffer, bytes_read);
-			if (*str == NULL)
-			{
-				free(*str);
+			*line = ft_realloc(*line, buffer, bytes_read);
+			if (line == NULL)
 				return (-1);
-			}
-			clean_buffer(buffer);
+//			put_mem(buffer, BUFFER_SIZE);
+			move_buffer(buffer, bytes_read);
 			return (1);
 		}
 		i++;
@@ -79,26 +115,27 @@ int		is_newline(char *buffer, char **str, int bytes_read)
 
 int		get_next_line(int fd, char **line)
 {
-	static char		*buffer = NULL;
-	char			*str;
+	static char		buffer[BUFFER_SIZE];
+	static int		cur_fd = 0;
 	int				bytes_read;
 	int				result;
 
-	if (fd < 0 || line == NULL)
-		return (-1);
-	if (buffer == NULL)
-		buffer = malloc(BUFFER_SIZE);
 	bytes_read = BUFFER_SIZE;
-	str = NULL;
+	if (fd != cur_fd)
+		clean_buffer(buffer, bytes_read);
+//	printf("cur_fd: %d\n", cur_fd);
+	cur_fd = fd;
+	*line = NULL;
 	while (bytes_read > 0)
 	{
-		result = is_newline(buffer, &str, bytes_read);
+		result = is_newline(buffer, line, bytes_read);
 		if (result != 0)
-			return (parse(result, line, &str));
-		dynamic_malloc(&str, buffer, bytes_read);
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[bytes_read] = 0;
+			return (result);
+		*line = ft_realloc(*line, buffer, bytes_read);
+		bytes_read = read(fd, &buffer[0], BUFFER_SIZE);
 	}
-	dynamic_malloc(&str, buffer, bytes_read);
-	return (parse(bytes_read, line, &str));
+	if (bytes_read == -1)
+		return (-1);
+	*line = ft_realloc(*line, buffer, bytes_read);
+	return (0);
 }

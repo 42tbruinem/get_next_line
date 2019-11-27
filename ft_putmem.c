@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.h                                    :+:    :+:            */
+/*   ft_putmem.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/09 23:16:26 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/09 23:16:26 by tbruinem      ########   odam.nl         */
+/*   Created: 2019/11/27 14:03:24 by tbruinem       #+#    #+#                */
+/*   Updated: 2019/11/27 14:03:24 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
 
-#include <unistd.h>
-#include <stdlib.h>
+void	put_mem(char *str, size_t len)
+{
+	size_t	i;
 
-int		get_next_line(int fd, char **line);
-void	put_mem(char *str, size_t len);
-
-#endif
+	i = 0;
+	write(1, "MEM:", 4);
+	while (i < len)
+	{
+		if (str[i] == 0)
+			write(1, "0", 1);
+		else
+			write(1, &str[i], 1);
+		i++;
+	}
+	write(1, "\n", 1);
+}
