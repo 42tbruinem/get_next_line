@@ -41,20 +41,20 @@ char	*ft_realloc(char *str, char *buffer, int bytes_read)
 {
 	char	*new;
 	int		i;
-	int		len;
 
 	i = 0;
+	if (bytes_read == -1)
+		return (NULL);
 	if (bytes_read > ft_strlen_n(buffer))
 		bytes_read = ft_strlen_n(buffer);
-	len = ft_strlen_n(str) + bytes_read;
-	new = malloc(len + 1);
+	new = malloc(sizeof(char) * (ft_strlen_n(str) + bytes_read + 1));
 	if (str)
 		while (str[i])
 		{
 			new[i] = str[i];
 			i++;
 		}
-	while (i < len)
+	while (i < (ft_strlen_n(str) + bytes_read))
 	{
 		new[i] = *buffer;
 		buffer++;
@@ -62,8 +62,6 @@ char	*ft_realloc(char *str, char *buffer, int bytes_read)
 	}
 	new[i] = 0;
 	free(str);
-//	printf("string: %s\n", new);
-//	printf("buffer: %s\n", buffer);
 	clean_buffer(buffer, bytes_read);
 	return (new);
 }
@@ -89,7 +87,6 @@ void	move_buffer(char *buffer, int bytes_read)
 		buffer[i] = 0;
 		i++;
 	}
-//	printf("cleaned buffer: %s\n", buffer);
 }
 
 int		is_newline(char *buffer, char **line, int bytes_read)
@@ -104,7 +101,6 @@ int		is_newline(char *buffer, char **line, int bytes_read)
 			*line = ft_realloc(*line, buffer, bytes_read);
 			if (line == NULL)
 				return (-1);
-//			put_mem(buffer, BUFFER_SIZE);
 			move_buffer(buffer, bytes_read);
 			return (1);
 		}
@@ -123,7 +119,6 @@ int		get_next_line(int fd, char **line)
 	bytes_read = BUFFER_SIZE;
 	if (fd != cur_fd)
 		clean_buffer(buffer, bytes_read);
-//	printf("cur_fd: %d\n", cur_fd);
 	cur_fd = fd;
 	*line = NULL;
 	while (bytes_read > 0)
@@ -134,8 +129,6 @@ int		get_next_line(int fd, char **line)
 		*line = ft_realloc(*line, buffer, bytes_read);
 		bytes_read = read(fd, &buffer[0], BUFFER_SIZE);
 	}
-	if (bytes_read == -1)
-		return (-1);
 	*line = ft_realloc(*line, buffer, bytes_read);
-	return (0);
+	return (bytes_read);
 }
