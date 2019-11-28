@@ -6,7 +6,7 @@
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/09 23:16:26 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/28 15:47:31 by tbruinem      ########   odam.nl         */
+/*   Updated: 2019/11/28 17:49:02 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct		s_store
 int		get_next_line(int fd, char **line);
 void	put_mem(char *str, size_t len);
 int		ft_strlen_n(char *str);
-void	clean_buffer(char *buffer, int bytes_read);
+void	clean_buffer(char *buffer, int bytes_read, int full);
 t_store	*item_new(int fd);
 void	move_buffer(char *buffer, int bytes_read);
 char	*ft_realloc(char *str, char *buffer, int bytes_read);

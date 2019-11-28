@@ -30,35 +30,31 @@ void	put_2d(char **lines)
 
 int		main(int argc, char **input)
 {
-	char **lines;
+	char *st;
 	int size;
 	int i;
 	int fd;
-	int result;
+	int	fd2;
 
 	i = 0;
 	size = 11;
-	if (argc < 2)
+	if (argc < 3)
 		return (0);
 	fd = open(input[1], O_RDONLY);
-	lines = malloc(sizeof(char *) * (size + 1));
-	while (i < size)
-	{
-		result = get_next_line(fd, &lines[i]);
-		printf("Output: %d\n", result);
-		printf("final string: %s\n", lines[i]);
-		i++;
-		if (result == 0)
-			break ;
-	}
-/* 	result = get_next_line(42, &lines[i]);
-	printf("%d\n", result);
-	printf("%s\n", *lines);
-	result = get_next_line(44, &lines[i]);
-	printf("%d\n", result);
-	printf("%s\n", *lines);
-	printf("\n\n\n\n"); */
-	lines[i] = 0;
-//	put_2d(lines);
+	fd2 = open(input[2], O_RDONLY);
+	printf("Output: %d | String: %s\n", get_next_line(fd, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
+	printf("Output: %d | String: %s\n", get_next_line(fd2, &st), st);
 	return (0);
 }
