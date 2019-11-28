@@ -6,7 +6,7 @@
 #    By: jvan-sni <jvan-sni@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/10/28 16:59:45 by jvan-sni       #+#    #+#                 #
-#    Updated: 2019/11/28 18:01:02 by tbruinem      ########   odam.nl          #
+#    Updated: 2019/11/28 22:19:20 by tishj            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ BUFFER_SIZE=5
 VARS = -D BUFFER_SIZE=${BUFFER_SIZE}
 CC = gcc
 
-FILES = main.c get_next_line.c get_next_line_utils.c\
-	test.c
+FILES = main.c get_next_line.c get_next_line_utils.c
 ifdef BONUS
 FILES = main_bonus.c get_next_line_bonus.c get_next_line_utils_bonus.c
 endif

@@ -31,13 +31,9 @@ void	put_2d(char **lines)
 int		main(int argc, char **input)
 {
 	char *st;
-	int size;
-	int i;
 	int fd;
 	int	fd2;
 
-	i = 0;
-	size = 11;
 	if (argc < 3)
 		return (0);
 	fd = open(input[1], O_RDONLY);

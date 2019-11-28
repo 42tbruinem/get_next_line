@@ -6,7 +6,7 @@
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/28 15:45:15 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/28 19:28:27 by tbruinem      ########   odam.nl         */
+/*   Updated: 2019/11/28 22:52:59 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,24 @@ void	clean_buffer(char *buffer, int bytes_read, int full)
 
 	i = 0;
 	if (full == 0)
+	{
 		while (i < bytes_read && buffer[i] != '\n')
 		{
 			buffer[i] = 0;
 			i++;
 		}
+	}
 	else
+	{
 		while (i < bytes_read)
 		{
 			buffer[i] = 0;
 			i++;
 		}
+	}
 }
 
-char	*ft_realloc(char *str, char *buffer, int bytes_read)
+char	*ft_realloc(char *str, char *buffer, int bytes_read, int j)
 {
 	char	*new;
 	int		i;
@@ -62,14 +66,14 @@ char	*ft_realloc(char *str, char *buffer, int bytes_read)
 		}
 	while (i < (ft_strlen_n(str) + bytes_read))
 	{
-		new[i] = *buffer;
-		buffer++;
+		new[i] = buffer[j];
+		j++;
 		i++;
 	}
 	new[i] = 0;
 	free(str);
 //	printf("I still work\n");
-	clean_buffer(buffer, BUFFER_SIZE, 0);
+	clean_buffer(buffer, bytes_read, 0);
 	return (new);
 }
 

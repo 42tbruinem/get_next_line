@@ -51,6 +51,13 @@ int		main(int argc, char **input)
 		if (result == 0)
 			break ;
 	}
+	lines[i] = 0;
+	while (i >= 0)
+	{
+		free(lines[i]);
+		i--;
+	}
+	free(lines);
 /* 	result = get_next_line(42, &lines[i]);
 	printf("%d\n", result);
 	printf("%s\n", *lines);
@@ -58,7 +65,6 @@ int		main(int argc, char **input)
 	printf("%d\n", result);
 	printf("%s\n", *lines);
 	printf("\n\n\n\n"); */
-	lines[i] = 0;
 //	put_2d(lines);
 	return (0);
 }

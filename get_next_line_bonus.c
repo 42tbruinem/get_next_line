@@ -6,7 +6,7 @@
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/09 22:38:51 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/28 19:28:13 by tbruinem      ########   odam.nl         */
+/*   Updated: 2019/11/28 22:55:16 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		is_newline(char *buffer, char **line, int bytes_read)
 	{
 		if (buffer[i] == '\n')
 		{
-			*line = ft_realloc(*line, buffer, bytes_read);
+			*line = ft_realloc(*line, buffer, bytes_read, 0);
 			if (line == NULL)
 				return (-1);
 			move_buffer(buffer, bytes_read);
@@ -126,11 +126,11 @@ int		get_next_line(int fd, char **line)
 		if (result != 0)
 			break ;
 //		printf("I AM BROKEN\n");
-		*line = ft_realloc(*line, current->buffer, bytes_read);
+		*line = ft_realloc(*line, current->buffer, bytes_read, 0);
 		bytes_read = read(fd, current->buffer, BUFFER_SIZE);
 	}
 	if (bytes_read == -1 || bytes_read == 0)
-		*line = ft_realloc(*line, current->buffer, bytes_read);
+		*line = ft_realloc(*line, current->buffer, bytes_read, 0);
 	else
 		bytes_read = result;
 	return (memory_leak_prevention_squad(line, &fd_store, current, bytes_read));

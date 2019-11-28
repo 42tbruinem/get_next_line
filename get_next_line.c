@@ -6,7 +6,7 @@
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/28 11:12:48 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/28 17:50:10 by tbruinem      ########   odam.nl         */
+/*   Updated: 2019/11/28 22:54:03 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ char	*ft_strjoin(char *str, char *buffer, int bytes_read)
 	return (new);
 }
 
-char	*ft_realloc(char *str, char *buffer, int bytes_read)
+char	*ft_realloc(char *str, char *buffer, int bytes_read, int j)
 {
 	char	*new;
-	int		i;
 
-	i = 0;
+	j = 0;
 	if (bytes_read == -1)
 	{
 		free(str);
