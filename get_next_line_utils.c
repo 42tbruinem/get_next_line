@@ -6,7 +6,7 @@
 /*   By: tbruinem <tbruinem@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/18 13:11:34 by tbruinem       #+#    #+#                */
-/*   Updated: 2019/11/20 10:51:35 by tbruinem      ########   odam.nl         */
+/*   Updated: 2019/11/28 14:56:12 by tbruinem      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		ft_strlen_n(char *str)
 	int i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	while (str[i] && str[i] != '\n')
 		i++;
 	return (i);
@@ -31,31 +33,14 @@ int		parse(int result, char **line, char **str)
 	return (result);
 }
 
-char	*ft_strjoin(char *s1, char *s2, int bytes_read, int j)
+void	clean_buffer(char *buffer, int bytes_read)
 {
-	int		s1len;
-	char	*new;
-	int		i;
+	int i;
 
-	s1len = 0;
 	i = 0;
-	if (s1)
-		s1len = ft_strlen_n(s1);
-	if (bytes_read > ft_strlen_n(s2))
-		bytes_read = ft_strlen_n(s2);
-	new = (char *)malloc(sizeof(char) * (s1len + bytes_read + 1));
-	if (s1)
-		while (s1[i])
-		{
-			new[i] = s1[i];
-			i++;
-		}
-	while (s2[j] && j < bytes_read)
+	while (i < bytes_read && buffer[i] != '\n')
 	{
-		new[i] = s2[j];
+		buffer[i] = 0;
 		i++;
-		j++;
 	}
-	new[i] = 0;
-	return (new);
 }
